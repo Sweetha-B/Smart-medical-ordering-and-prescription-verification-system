@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedTrace - Healthcare Intelligence Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: white;
+            min-height: 100vh;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            font-size: 1.5rem;
+            color: #2563EB;
+        }
+
+        .logo span {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1F2937;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4B5563;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #2563EB;
+        }
+
+        .login-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-outline-nav {
+            background: transparent;
+            border: 1px solid #2563EB;
+            color: #2563EB;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-outline-nav:hover {
+            background: #2563EB;
+            color: white;
+        }
+
+        .btn-primary-nav {
+            background: #2563EB;
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-primary-nav:hover {
+            background: #1D4ED8;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 2rem 4rem;
+            background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%);
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #1F2937;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero-content h1 span {
+            color: #2563EB;
+        }
+
+        .hero-content p {
+            font-size: 1.125rem;
+            color: #4B5563;
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-hero-primary {
+            background: #2563EB;
+            color: white;
+            border: none;
+            padding: 0.875rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-hero-primary:hover {
+            background: #1D4ED8;
+            transform: translateY(-2px);
+        }
+
+        .btn-hero-secondary {
+            background: white;
+            color: #2563EB;
+            border: 1px solid #2563EB;
+            padding: 0.875rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-hero-secondary:hover {
+            background: #EFF6FF;
+            transform: translateY(-2px);
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2563EB;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #6B7280;
+        }
+
+        .hero-image {
+            background: linear-gradient(135deg, #2563EB, #1D4ED8);
+            border-radius: 24px;
+            padding: 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-image i {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 4rem 2rem;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1F2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title p {
+            color: #6B7280;
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background: white;
+            border: 1px solid #E5E7EB;
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+            border-color: #2563EB;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: #EFF6FF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .feature-icon i {
+            font-size: 1.5rem;
+            color: #2563EB;
+        }
+
+        .feature-card h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            font-size: 0.75rem;
+            color: #6B7280;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1F2937;
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            max-width: 440px;
+            width: 90%;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid #E5E7EB;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .modal-header h3 i {
+            margin-right: 8px;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #9CA3AF;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #D1D5DB;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #2563EB;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: #2563EB;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #1D4ED8;
+        }
+
+        .error-msg {
+            background: #FEE2E2;
+            color: #DC2626;
+            padding: 0.75rem;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .demo-link {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.7rem;
+        }
+
+        .demo-link a {
+            color: #2563EB;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .role-badge {
+            display: inline-block;
+            background: #EFF6FF;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #2563EB;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+            }
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .nav-links {
+                display: none;
+            }
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-hospital"></i>
+            <span>MedTrace</span>
+        </div>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#features">Features</a>
+            <a href="#">Solutions</a>
+            <a href="#">Contact</a>
+        </div>
+        <div class="login-buttons">
+            <!-- This login button is for Doctor, Pharmacy, Admin only -->
+            <button class="btn-outline-nav" onclick="openStaffLoginModal()">Staff Login</button>
+            <button class="btn-primary-nav" onclick="openRegisterModal()">Register</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Smart Medical <span>Ordering & Prescription</span> Verification System</h1>
+                <p>Complete healthcare management platform with QR-based prescription verification, digital medical ordering, and seamless pharmacy integration.</p>
+                <div class="hero-buttons">
+                    <!-- Get Started button - Patient only -->
+                    <button class="btn-hero-primary" onclick="openPatientLoginModal()">Get Started</button>
+                    <button class="btn-hero-secondary" onclick="scrollToFeatures()">Learn More</button>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">10k+</div>
+                        <div class="stat-label">Patients Served</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">Partner Pharmacies</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">99.9%</div>
+                        <div class="stat-label">Verification Accuracy</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <i class="fas fa-qrcode"></i>
+                <h3>QR Prescription Verification</h3>
+                <p>Secure, one-time use QR codes for every prescription</p>
+                <div style="margin-top: 1rem;">
+                    <i class="fas fa-shield-alt"></i> <i class="fas fa-lock"></i> <i class="fas fa-check-circle"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="section-title">
+            <h2>Complete Healthcare Ecosystem</h2>
+            <p>Everything you need for modern medical practice</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-qrcode"></i></div>
+                <h4>QR Verification</h4>
+                <p>Secure prescription verification with unique QR codes</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-prescription"></i></div>
+                <h4>Digital Prescriptions</h4>
+                <p>e-Prescribing with drug interaction checking</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-capsules"></i></div>
+                <h4>Inventory Management</h4>
+                <p>Real-time stock tracking and alerts</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                <h4>Analytics Dashboard</h4>
+                <p>Comprehensive healthcare analytics</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 MedTrace Healthcare Solutions. All rights reserved.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.75rem;">Secure • HIPAA Compliant • Enterprise Ready</p>
+    </footer>
+
+    <!-- ==================== PATIENT LOGIN MODAL (Get Started button) ==================== -->
+    <div class="modal" id="patientLoginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-circle" style="color: #2563EB;"></i> Patient Login</h3>
+                <button class="close-modal" onclick="closeModal('patientLoginModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="role-badge">
+                    <i class="fas fa-hospital-user"></i> Patient Portal Access
+                </div>
+                <form id="patientLoginForm" onsubmit="handlePatientLogin(event)">
+                    <div class="form-group">
+                        <label><i class="fas fa-envelope" style="margin-right: 6px; color: #2563EB;"></i> Email Address</label>
+                        <input type="email" class="form-control" id="patientEmail" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-lock" style="margin-right: 6px; color: #2563EB;"></i> Password</label>
+                        <input type="password" class="form-control" id="patientPassword" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-arrow-right-to-bracket"></i> Login as Patient
+                    </button>
+                </form>
+                
+                <div id="patientLoginError" class="error-msg"></div>
+                
+                <div class="demo-link">
+                    <a onclick="showPatientDemo()">
+                        <i class="fas fa-key"></i> Need demo credentials?
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== STAFF LOGIN MODAL (Doctor, Pharmacy, Admin - Top Right Login button) ==================== -->
+    <div class="modal" id="staffLoginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-briefcase" style="color: #2563EB;"></i> Staff Login</h3>
+                <button class="close-modal" onclick="closeModal('staffLoginModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="role-badge">
+                    <i class="fas fa-stethoscope"></i> Doctor | <i class="fas fa-store"></i> Pharmacy | <i class="fas fa-shield-alt"></i> Admin
+                </div>
+                
+                <!-- Role Selection for Staff -->
+                <div style="display: flex; gap: 10px; margin-bottom: 1.5rem;">
+                    <button type="button" class="staff-role-btn active" data-staff-role="doctor" onclick="selectStaffRole('doctor')" style="flex:1; padding: 8px; background: #2563EB; color: white; border: none; border-radius: 8px; cursor: pointer;">
+                        <i class="fas fa-stethoscope"></i> Doctor
+                    </button>
+                    <button type="button" class="staff-role-btn" data-staff-role="pharmacy" onclick="selectStaffRole('pharmacy')" style="flex:1; padding: 8px; background: #E5E7EB; color: #4B5563; border: none; border-radius: 8px; cursor: pointer;">
+                        <i class="fas fa-store"></i> Pharmacy
+                    </button>
+                    <button type="button" class="staff-role-btn" data-staff-role="admin" onclick="selectStaffRole('admin')" style="flex:1; padding: 8px; background: #E5E7EB; color: #4B5563; border: none; border-radius: 8px; cursor: pointer;">
+                        <i class="fas fa-shield-alt"></i> Admin
+                    </button>
+                </div>
+                
+                <form id="staffLoginForm" onsubmit="handleStaffLogin(event)">
+                    <input type="hidden" id="staffRole" value="doctor">
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-envelope" style="margin-right: 6px; color: #2563EB;"></i> Email Address</label>
+                        <input type="email" class="form-control" id="staffEmail" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-lock" style="margin-right: 6px; color: #2563EB;"></i> Password</label>
+                        <input type="password" class="form-control" id="staffPassword" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-arrow-right-to-bracket"></i> Login as Staff
+                    </button>
+                </form>
+                
+                <div id="staffLoginError" class="error-msg"></div>
+                
+                <div class="demo-link">
+                    <a onclick="showStaffDemo()">
+                        <i class="fas fa-key"></i> Need demo credentials?
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal (Only for Patients) -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-plus" style="color: #2563EB;"></i> Patient Registration</h3>
+                <button class="close-modal" onclick="closeModal('registerModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="registerForm" onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" class="form-control" id="regName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" id="regEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" class="form-control" id="regPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control" id="regPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" class="form-control" id="regConfirmPassword" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Register as Patient</button>
+                </form>
+                <div id="registerError" class="error-msg"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Demo Credentials Modal -->
+    <div class="modal" id="demoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-key"></i> Demo Credentials</h3>
+                <button class="close-modal" onclick="closeModal('demoModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="background: #EFF6FF; padding: 1rem; border-radius: 12px;">
+                    <p><strong><i class="fas fa-user-circle" style="color: #2563EB;"></i> PATIENTS (password: patient123):</strong></p>
+                    <p style="margin-bottom: 8px; font-size: 0.8rem;">• selvam.m@meditrace.com</p>
+                    <p style="margin-bottom: 8px; font-size: 0.8rem;">• kavitha.s@meditrace.com</p>
+                    <p style="margin-bottom: 12px; font-size: 0.8rem;">• murugan.r@meditrace.com</p>
+                    
+                    <p><strong><i class="fas fa-stethoscope" style="color: #2563EB;"></i> DOCTORS (password: doctor123):</strong></p>
+                    <p style="margin-bottom: 8px; font-size: 0.8rem;">• dr.selvamk@meditrace.com - Dr. Selvam K</p>
+                    <p style="margin-bottom: 8px; font-size: 0.8rem;">• dr.priyas@meditrace.com - Dr. Priya S</p>
+                    <p style="margin-bottom: 12px; font-size: 0.8rem;">• dr.meenar@meditrace.com - Dr. Meena R</p>
+                    
+                    <p><strong><i class="fas fa-store" style="color: #2563EB;"></i> PHARMACY:</strong><br> pharmacy@meditrace.com / pharmacy123</p>
+                    <p style="margin-top: 8px;"><strong><i class="fas fa-shield-alt" style="color: #2563EB;"></i> ADMIN:</strong><br> admin@meditrace.com / admin123</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedStaffRole = 'doctor';
+
+        // Staff role selection
+        function selectStaffRole(role) {
+            selectedStaffRole = role;
+            document.getElementById('staffRole').value = role;
+            
+            // Update button styles
+            document.querySelectorAll('.staff-role-btn').forEach(btn => {
+                btn.style.background = '#E5E7EB';
+                btn.style.color = '#4B5563';
+            });
+            const activeBtn = document.querySelector(`.staff-role-btn[onclick="selectStaffRole('${role}')"]`);
+            if (activeBtn) {
+                activeBtn.style.background = '#2563EB';
+                activeBtn.style.color = 'white';
+            }
+        }
+
+        // Open Patient Login (Get Started button)
+        function openPatientLoginModal() {
+            document.getElementById('patientLoginModal').classList.add('active');
+        }
+
+        // Open Staff Login (Top Right Login button)
+        function openStaffLoginModal() {
+            document.getElementById('staffLoginModal').classList.add('active');
+        }
+
+        function openRegisterModal() {
+            document.getElementById('registerModal').classList.add('active');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        function showPatientDemo() {
+            closeModal('patientLoginModal');
+            document.getElementById('demoModal').classList.add('active');
+        }
+
+        function showStaffDemo() {
+            closeModal('staffLoginModal');
+            document.getElementById('demoModal').classList.add('active');
+        }
+
+        function scrollToFeatures() {
+            document.getElementById('features').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ==================== PATIENT LOGIN HANDLER ====================
+        async function handlePatientLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('patientEmail').value;
+            const password = document.getElementById('patientPassword').value;
+            
+            const loginBtn = document.querySelector('#patientLoginForm .submit-btn');
+            const originalText = loginBtn.innerHTML;
+            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
+            loginBtn.disabled = true;
+            
+            document.getElementById('patientLoginError').style.display = 'none';
+            
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        email: email, 
+                        password: password, 
+                        role: 'patient' 
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    window.location.href = '/patient/dashboard';
+                } else {
+                    document.getElementById('patientLoginError').innerHTML = data.error || 'Invalid credentials. Only patients can login here.';
+                    document.getElementById('patientLoginError').style.display = 'block';
+                    loginBtn.innerHTML = originalText;
+                    loginBtn.disabled = false;
+                }
+            } catch (error) {
+                document.getElementById('patientLoginError').innerHTML = 'Network error. Make sure the server is running.';
+                document.getElementById('patientLoginError').style.display = 'block';
+                loginBtn.innerHTML = originalText;
+                loginBtn.disabled = false;
+            }
+        }
+
+        // ==================== STAFF LOGIN HANDLER (Doctor, Pharmacy, Admin) ====================
+        async function handleStaffLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('staffEmail').value;
+            const password = document.getElementById('staffPassword').value;
+            const role = document.getElementById('staffRole').value;
+            
+            const loginBtn = document.querySelector('#staffLoginForm .submit-btn');
+            const originalText = loginBtn.innerHTML;
+            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
+            loginBtn.disabled = true;
+            
+            document.getElementById('staffLoginError').style.display = 'none';
+            
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        email: email, 
+                        password: password, 
+                        role: role 
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    
+                    const roleUrls = {
+                        'doctor': '/doctor/dashboard',
+                        'pharmacy': '/pharmacy/dashboard',
+                        'admin': '/admin/dashboard'
+                    };
+                    
+                    window.location.href = roleUrls[role];
+                } else {
+                    document.getElementById('staffLoginError').innerHTML = data.error || 'Invalid credentials. Please check your email and password.';
+                    document.getElementById('staffLoginError').style.display = 'block';
+                    loginBtn.innerHTML = originalText;
+                    loginBtn.disabled = false;
+                }
+            } catch (error) {
+                document.getElementById('staffLoginError').innerHTML = 'Network error. Make sure the server is running.';
+                document.getElementById('staffLoginError').style.display = 'block';
+                loginBtn.innerHTML = originalText;
+                loginBtn.disabled = false;
+            }
+        }
+
+        // ==================== REGISTER HANDLER ====================
+        async function handleRegister(event) {
+            event.preventDefault();
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const phone = document.getElementById('regPhone').value;
+            const password = document.getElementById('regPassword').value;
+            const confirm = document.getElementById('regConfirmPassword').value;
+
+            if (password !== confirm) {
+                document.getElementById('registerError').innerText = 'Passwords do not match';
+                document.getElementById('registerError').style.display = 'block';
+                return;
+            }
+
+            const registerBtn = document.querySelector('#registerForm .submit-btn');
+            registerBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating account...';
+            registerBtn.disabled = true;
+            document.getElementById('registerError').style.display = 'none';
+
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        name, 
+                        email, 
+                        phone, 
+                        password, 
+                        role: 'patient' 
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    alert('Registration successful! Please login.');
+                    closeModal('registerModal');
+                    openPatientLoginModal();
+                    document.getElementById('registerForm').reset();
+                } else {
+                    document.getElementById('registerError').innerText = data.error || 'Registration failed';
+                    document.getElementById('registerError').style.display = 'block';
+                }
+            } catch (error) {
+                document.getElementById('registerError').innerText = 'Network error. Make sure the server is running.';
+                document.getElementById('registerError').style.display = 'block';
+            } finally {
+                registerBtn.innerHTML = 'Register';
+                registerBtn.disabled = false;
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>

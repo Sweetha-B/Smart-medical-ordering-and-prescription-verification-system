@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}MedTrace - Smart Medical System{% endblock %}</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-blue: #2563EB;
+            --primary-blue-dark: #1D4ED8;
+            --primary-blue-light: #3B82F6;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-400: #9CA3AF;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --gray-800: #1F2937;
+            --gray-900: #111827;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-800);
+            overflow-x: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 280px;
+            background: white;
+            border-right: 1px solid var(--gray-200);
+            transition: var(--transition);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-header h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin: 0;
+        }
+
+        .sidebar-header p {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            margin: 0.25rem 0 0 0;
+        }
+
+        .nav-menu {
+            padding: 0 1rem;
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.25rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.75rem 1rem;
+            color: var(--gray-600);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        .nav-link i {
+            width: 20px;
+            font-size: 1rem;
+        }
+
+        .nav-link:hover {
+            background: var(--gray-100);
+            color: var(--primary-blue);
+        }
+
+        .nav-link.active {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .nav-link.active i {
+            color: white;
+        }
+
+        .sidebar-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem;
+            border-top: 1px solid var(--gray-200);
+            background: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+            transition: var(--transition);
+        }
+
+        /* Topbar */
+        .topbar {
+            background: white;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin: 0;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-name {
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Content Area */
+        .content-area {
+            padding: 2rem;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Cards */
+        .stat-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            border: 1px solid var(--gray-200);
+            transition: var(--transition);
+            height: 100%;
+            
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            background: var(--gray-100);
+            color: var(--primary-blue);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--gray-500);
+        }
+
+        .content-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            border: 1px solid var(--gray-200);
+        }
+
+        /* Tables */
+        .data-table {
+            background: white;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--gray-200);
+            overflow: hidden;
+            overflow-x: auto;
+        }
+        .badge-expired {
+    background: #FEE2E2;
+    color: #991B1B;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .data-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            background: var(--gray-50);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--gray-200);
+            font-size: 0.875rem;
+        }
+
+        .data-table tr:hover {
+            background: var(--gray-50);
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-success {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .badge-warning {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        .badge-danger {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+
+        .badge-info {
+            background: #DBEAFE;
+            color: #1E40AF;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-blue-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--gray-300);
+            color: var(--gray-700);
+        }
+
+        .btn-outline:hover {
+            background: var(--gray-100);
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #DC2626;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+            color: var(--gray-700);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.625rem 0.875rem;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        select.form-control {
+            cursor: pointer;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+        }
+
+        /* Modals */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--radius-xl);
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            padding: 1.25rem 1.5rem;
+            border-top: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+        }
+
+        .btn-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #9CA3AF;
+        }
+
+        .btn-close:hover {
+            color: #4B5563;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--gray-500);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Loading */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--gray-200);
+            border-top-color: var(--primary-blue);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            z-index: 3000;
+        }
+
+        .toast {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: 0.75rem 1rem;
+            margin-top: 0.5rem;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            animation: slideInRight 0.3s ease;
+            border-left: 4px solid var(--success);
+            font-size: 0.875rem;
+        }
+
+        .toast.error {
+            border-left-color: var(--danger);
+        }
+
+        .toast.warning {
+            border-left-color: var(--warning);
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Notification Styles */
+        .notification-container {
+            position: relative;
+        }
+
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: #6B7280;
+            transition: all 0.3s;
+        }
+
+        .notification-bell:hover {
+            color: #2563EB;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #EF4444;
+            color: white;
+            font-size: 0.6rem;
+            font-weight: 600;
+            padding: 0.15rem 0.4rem;
+            border-radius: 50%;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        .notification-dropdown {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            width: 350px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+            border: 1px solid #E5E7EB;
+            z-index: 1000;
+            display: none;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .notification-dropdown.show {
+            display: block;
+            animation: slideDown 0.2s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .notification-header {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #E5E7EB;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            background: white;
+        }
+
+        .notification-item {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #E5E7EB;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .notification-item:hover {
+            background: #F9FAFB;
+        }
+
+        .notification-item.unread {
+            background: #EFF6FF;
+        }
+
+        .notification-icon {
+            width: 32px;
+            height: 32px;
+            background: #EFF6FF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .notification-message {
+            font-size: 0.7rem;
+            color: #6B7280;
+            margin-bottom: 0.25rem;
+        }
+
+        .notification-time {
+            font-size: 0.6rem;
+            color: #9CA3AF;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .topbar {
+                padding: 0.75rem 1rem;
+            }
+            .content-area {
+                padding: 1rem;
+            }
+            .stats-grid {
+                gap: 1rem;
+            }
+            .notification-dropdown {
+                width: 300px;
+                right: -50px;
+            }
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gray-600);
+            cursor: pointer;
+            margin-right: 1rem;
+        }
+
+        /* Balance Progress Bar */
+        .balance-progress {
+            background: var(--gray-200);
+            border-radius: 9999px;
+            height: 8px;
+            overflow: hidden;
+            margin: 0.5rem 0;
+        }
+
+        .balance-progress-fill {
+            background: var(--primary-blue);
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 0.3s ease;
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    {% if current_user %}
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3><i class="fas fa-hospital"></i> MedTrace</h3>
+            <p>{{ current_user.role|capitalize }} Portal</p>
+        </div>
+        <ul class="nav-menu">
+            {% block sidebar_items %}{% endblock %}
+        </ul>
+        <div class="sidebar-footer">
+            <a href="/logout" class="nav-link">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="topbar">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h1 class="page-title">{% block page_title %}{% endblock %}</h1>
+            <div class="user-info">
+                <!-- Notification Bell -->
+                <div class="notification-container">
+                    <i class="fas fa-bell notification-bell" onclick="toggleNotifications()"></i>
+                    <span class="notification-badge" id="notificationCount">0</span>
+                    <div class="notification-dropdown" id="notificationDropdown">
+                        <div class="notification-header">
+                            Notifications
+                            <span style="float: right; font-size: 0.6rem;">
+                                <a href="#" onclick="markAllRead(); return false;" style="color: #2563EB;">Mark all read</a>
+                            </span>
+                        </div>
+                        <div id="notificationList"></div>
+                    </div>
+                </div>
+                <span class="user-name">{{ current_user.name }}</span>
+                <div class="user-avatar">{{ current_user.name[0] }}</div>
+            </div>
+        </div>
+        <div class="content-area">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+    
+    <script>
+        // Menu toggle for mobile
+        document.getElementById('menuToggle')?.addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('open');
+        });
+        
+        // Toast function
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            const icon = type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
+            toast.innerHTML = `<i class="fas ${icon}"></i> <span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+        
+        window.showToast = showToast;
+        
+        // ============ NOTIFICATION SYSTEM ============
+        const userRole = '{{ current_user.role }}';
+        let notifications = JSON.parse(localStorage.getItem('user_notifications') || '[]');
+        
+        function getIconForType(type) {
+            const icons = {
+                'appointment': 'fa-calendar-check',
+                'prescription': 'fa-prescription',
+                'payment': 'fa-credit-card',
+                'stock': 'fa-exclamation-triangle',
+                'emergency': 'fa-ambulance'
+            };
+            return icons[type] || 'fa-bell';
+        }
+        
+        function getColorForType(type) {
+            const colors = {
+                'appointment': '#2563EB',
+                'prescription': '#10B981',
+                'payment': '#F59E0B',
+                'stock': '#EF4444',
+                'emergency': '#DC2626'
+            };
+            return colors[type] || '#6B7280';
+        }
+        
+        function updateNotificationBadge() {
+            const unreadCount = notifications.filter(n => !n.read).length;
+            const badge = document.getElementById('notificationCount');
+            if (badge) {
+                badge.innerText = unreadCount;
+                badge.style.display = unreadCount > 0 ? 'inline-block' : 'none';
+            }
+        }
+        
+        function renderNotifications() {
+            const container = document.getElementById('notificationList');
+            if (!container) return;
+            
+            if (notifications.length === 0) {
+                container.innerHTML = '<div style="padding: 2rem; text-align: center; color: #9CA3AF;">No notifications</div>';
+                return;
+            }
+            
+            container.innerHTML = notifications.map(n => `
+                <div class="notification-item ${!n.read ? 'unread' : ''}" onclick="markAsRead(${n.id})">
+                    <div class="notification-icon" style="background: ${n.color}15;">
+                        <i class="fas ${n.icon}" style="color: ${n.color};"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">${n.title}</div>
+                        <div class="notification-message">${n.message}</div>
+                        <div class="notification-time">${n.time}</div>
+                    </div>
+                </div>
+            `).join('');
+            updateNotificationBadge();
+        }
+        
+        function markAsRead(id) {
+            const notification = notifications.find(n => n.id === id);
+            if (notification) notification.read = true;
+            localStorage.setItem('user_notifications', JSON.stringify(notifications));
+            renderNotifications();
+            updateNotificationBadge();
+        }
+        
+        function markAllRead() {
+            notifications.forEach(n => n.read = true);
+            localStorage.setItem('user_notifications', JSON.stringify(notifications));
+            renderNotifications();
+            updateNotificationBadge();
+        }
+        
+        function toggleNotifications() {
+            const dropdown = document.getElementById('notificationDropdown');
+            dropdown.classList.toggle('show');
+        }
+        
+        function addNotification(title, message, type) {
+            const newNotification = {
+                id: Date.now(),
+                title: title,
+                message: message,
+                type: type,
+                time: 'Just now',
+                read: false,
+                icon: getIconForType(type),
+                color: getColorForType(type),
+                timestamp: new Date().toISOString()
+            };
+            notifications.unshift(newNotification);
+            if (notifications.length > 50) notifications = notifications.slice(0, 50);
+            localStorage.setItem('user_notifications', JSON.stringify(notifications));
+            renderNotifications();
+            updateNotificationBadge();
+            showToast(title, 'info');
+        }
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const container = document.querySelector('.notification-container');
+            const dropdown = document.getElementById('notificationDropdown');
+            if (container && !container.contains(event.target) && dropdown) {
+                dropdown.classList.remove('show');
+            }
+        });
+        
+        // Add initial notifications if empty
+        if (notifications.length === 0) {
+            if (userRole === 'patient') {
+                addNotification('Welcome to MedTrace', 'Your health management system is ready', 'appointment');
+                addNotification('Prescription Ready', 'Your recent prescription has been approved', 'prescription');
+            } else if (userRole === 'doctor') {
+                addNotification('Welcome Doctor', 'You have pending appointments today', 'appointment');
+            } else if (userRole === 'pharmacy') {
+                addNotification('Inventory Update', 'Please review low stock items', 'stock');
+            } else if (userRole === 'admin') {
+                addNotification('System Ready', 'All systems are operational', 'appointment');
+            }
+        }
+        
+        renderNotifications();
+    </script>
+    {% else %}
+    {% block full_page %}{% endblock %}
+    {% endif %}
+    
+    <div class="toast-container" id="toastContainer"></div>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
