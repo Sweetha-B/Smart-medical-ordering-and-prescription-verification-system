@@ -14,27 +14,43 @@ Python · Flask · MongoDB · JWT · REST API · HTML5 · CSS3
 - 8 REST API endpoints with full lifecycle traceability
 
 ## Project Structure
-├── app.py              # Main Flask application
-├── requirements.txt    # Python dependencies
+
+```text
+├── app.py                # Main Flask application
+├── requirements.txt      # Python dependencies
 ├── database/
-│   └── db_connect.py   # MongoDB connection
-├── routes/
-│   ├── doctor.py       # Doctor portal routes
-│   └── patient.py      # Patient portal routes
+│   └── db_connect.py     # MongoDB connection
+├── admin/
+│   ├── doctors/          # Admin management for doctors
+│   ├── patients/         # Admin management for patients
+│   └── reports/          # System reports and analytics
+├── doctor/
+│   ├── appointments/     # Doctor appointment schedules
+│   └── write_prescriptions/ # Prescription creation module
+├── patient/
+│   ├── book_appointment/ # Patient booking module
+│   ├── payments/         # Payment handling and history
+│   └── prescriptions/    # Patient's downloaded/viewed prescriptions
+├── pharmacy/
+│   ├── balance_orders/   # Pending or partial medicine orders
+│   ├── billing/          # Invoicing and payment receipt generation
+│   └── inventory/        # Medicine stock management
 ├── static/
-│   ├── index.html      # Frontend HTML
-│   ├── style.css       # Styles
-│   └── script.js       # Frontend JavaScript
+│   ├── index.html        # Frontend HTML
+│   ├── style.css         # Styles
+│   └── script.js         # Frontend JavaScript
 └── utils/
-    └── qr_generator.py # QR code utilities
+    └── qr_generator.py   # QR code utilities
 
 ## API Endpoints
+```text
 POST   /api/register       - Register doctor or patient
 POST   /api/login          - JWT login
 POST   /api/prescription   - Create prescription with QR
 GET    /api/prescription/{id} - Fetch prescription
 PUT    /api/queue/update   - Update queue status
 DELETE /api/prescription/{id} - Delete prescription
+```
 
 ## Program Flow
 1. User Registration: Role-based signup with JWT token generation
@@ -55,4 +71,4 @@ DELETE /api/prescription/{id} - Delete prescription
 5. Open: http://localhost:5000
 
 ## Contact
-Sweetha B | sweethab99@gmail.com | sweethab.netlify.app
+Sweetha B | sweethab99@gmail.com 
