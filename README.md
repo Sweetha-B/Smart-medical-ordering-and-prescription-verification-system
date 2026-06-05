@@ -41,6 +41,7 @@ Python · Flask · MongoDB · JWT · REST API · HTML5 · CSS3
 │   └── script.js         # Frontend JavaScript
 └── utils/
     └── qr_generator.py   # QR code utilities
+```
 
 ## API Endpoints
 ```text
